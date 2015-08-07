@@ -2,3 +2,5 @@
 /db/test.sqlite3
 /dbtool/dbtool
 /mijstter.sqlite3
+/files/*
+!/files/.keep
