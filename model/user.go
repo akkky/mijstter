@@ -7,9 +7,9 @@ import (
 
 type User struct {
 	Model
-	UserName        string
-	Password        string
-	PasswordConfirm string
+	UserName        string `json:user_name`
+	Password        string `json:password`
+	PasswordConfirm string `json:password_confirm`
 	PasswordHash    []byte
 }
 
