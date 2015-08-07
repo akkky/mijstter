@@ -34,7 +34,7 @@ func NewPost(c *gin.Context) {
 
 func newPost(c *gin.Context) *Error {
 	var post model.Post
-	err := c.BindJSON(&post)
+	err := c.Bind(&post)
 	if err != nil {
 		return NewError(http.StatusBadRequest, "Bad Request", &err)
 	}

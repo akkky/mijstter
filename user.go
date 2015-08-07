@@ -16,7 +16,7 @@ func NewUser(c *gin.Context) {
 
 func newUser(c *gin.Context) *Error {
 	var user model.User
-	err := c.BindJSON(&user)
+	err := c.Bind(&user)
 	if err != nil {
 		return NewError(http.StatusBadRequest, "Bad Request", &err)
 	}
