@@ -24,6 +24,14 @@ func getPort() string {
 	return "localhost:8080"
 }
 
+func AcceptCrossOrigin() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Add("Access-Control-Allow-Origin", "*")
+
+		c.Next()
+	}
+}
+
 func _main() (int, error) {
 	db, err := db.NewDatabase(databaseFile)
 	if err != nil {
@@ -33,6 +41,8 @@ func _main() (int, error) {
 	database = db
 
 	r := gin.Default()
+
+	r.Use(AcceptCrossOrigin())
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
