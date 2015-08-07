@@ -23,6 +23,15 @@ func newUser(c *gin.Context) *Error {
 
 	fmt.Printf("Post : %v\n", user)
 
+	// ユーザーの存在チェック
+	exist, err := database.IsUserNameExist(user.UserName)
+	if err != nil {
+		return NewError(http.StatusInternalServerError, "Can not read users.", &err)
+	}
+	if exist {
+		return NewError(http.StatusConflict, "user_name is already exists.", nil)
+	}
+
 	if !user.CheckPassword() {
 		return NewError(http.StatusBadRequest, "Password is not match.", nil)
 	}
