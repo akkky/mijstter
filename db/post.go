@@ -76,7 +76,7 @@ func (d *Database) WritePost(post *model.Post) error {
 
 // 指定された件数のユーザーを検索します。
 func (d *Database) ReadPosts(limit int) ([]*model.Post, error) {
-	stmt, err := d.db.Prepare("select id, user_id, user_name, message, url from posts order by id limit ?;")
+	stmt, err := d.db.Prepare("select id, user_id, user_name, message, url from posts order by id desc limit ?;")
 	if err != nil {
 		return nil, err
 	}
