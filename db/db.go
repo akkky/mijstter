@@ -37,6 +37,17 @@ unique (user_name)
 		return err
 	}
 
+	// posts
+	_, err = d.db.Exec(`create table posts (
+		id integer primary key autoincrement not null,
+		user_id integer not null,
+		message text,
+		url text
+		);`)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -44,6 +55,12 @@ unique (user_name)
 func (d *Database) DropTables() error {
 	// users
 	_, err := d.db.Exec("drop table users;")
+	if err != nil {
+		return err
+	}
+
+	// posts
+	_, err = d.db.Exec("drop table posts;")
 	if err != nil {
 		return err
 	}
