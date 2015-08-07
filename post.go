@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "fmt"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"mijstter/model"
 	"net/http"
@@ -38,6 +38,8 @@ func newPost(c *gin.Context) *Error {
 	if err != nil {
 		return NewError(http.StatusBadRequest, "Bad Request", &err)
 	}
+
+	fmt.Printf("Post : %v\n", post)
 
 	err = database.WritePost(&post)
 	if err != nil {

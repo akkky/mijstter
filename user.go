@@ -21,13 +21,13 @@ func newUser(c *gin.Context) *Error {
 		return NewError(http.StatusBadRequest, "Bad Request", &err)
 	}
 
+	fmt.Printf("Post : %v\n", user)
+
 	if !user.CheckPassword() {
 		return NewError(http.StatusBadRequest, "Password is not match.", nil)
 	}
 
 	user.SetPasswordHash()
-
-	fmt.Println(database)
 
 	err = database.WriteUser(&user)
 	if err != nil {
