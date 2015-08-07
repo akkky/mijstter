@@ -2,8 +2,8 @@ package model
 
 type Post struct {
 	Model
-	UserId   ID     `json:"user_id"`
-	UserName string `json:"user_name"`
-	Message  string `json:"message"`
-	Url      string `json:"url"`
+	UserId   ID     `form:"user_id" json:"user_id"`
+	UserName string `form:"user_name" json:"user_name"`
+	Message  string `form:"message" json:"message"`
+	Url      string `form:"url" json:"url"`
 }

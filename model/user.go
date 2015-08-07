@@ -8,10 +8,10 @@ import (
 
 type User struct {
 	Model
-	UserName        string `json:"user_name"`
-	Password        string `json:"password"`
-	PasswordConfirm string `json:"password_confirm"`
-	PasswordHash    []byte
+	UserName        string `form:"user_name" json:"user_name"`
+	Password        string `form:"password" json:"password,omitempty"`
+	PasswordConfirm string `form:"password_confirm" json:"password_confirm,omitempty"`
+	PasswordHash    []byte `json:"-"`
 }
 
 const hashRepeatCount = 10
