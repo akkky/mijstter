@@ -62,6 +62,41 @@ func TestReadUsers(t *testing.T) {
 	}
 }
 
+func TestReadByUserName(t *testing.T) {
+	err := db.DeleteAllUsers()
+	if err != nil {
+		t.Errorf("users are not deleted.\n%v", err)
+	}
+
+	users := []model.User{
+		model.User{UserName: "test1", Password: "abcdefg"},
+		model.User{UserName: "test2", Password: "abcdefg"},
+		model.User{UserName: "test3", Password: "abcdefg"},
+	}
+
+	for _, user := range users {
+		user.SetPasswordHash()
+		db.WriteUser(&user)
+	}
+
+	expected := model.User{UserName: "test4", Password: "abcdefg"}
+	expected.SetPasswordHash()
+	db.WriteUser(&expected)
+	expected.Password = ""
+
+	actual, err := db.ReadUserByUserName(expected.UserName)
+	if err != nil {
+		t.Errorf("user can not select.\n%v", err)
+	}
+	if actual == nil {
+		t.Errorf("user is not returned.")
+	}
+
+	if !reflect.DeepEqual(*actual, expected) {
+		t.Errorf("got %v\nwant %v", actual, expected)
+	}
+}
+
 func IsUserNameExist(t *testing.T) {
 	err := db.DeleteAllUsers()
 	if err != nil {

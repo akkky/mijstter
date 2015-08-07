@@ -48,6 +48,23 @@ func (d *Database) IsUserNameExist(user_name string) (bool, error) {
 	return count == 1, nil
 }
 
+// 指定された user_name のユーザーを検索します。
+func (d *Database) ReadUserByUserName(user_name string) (*model.User, error) {
+	stmt, err := d.db.Prepare("select id, user_name, password_hash from users where user_name=?")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	user := &model.User{}
+	err = stmt.QueryRow(user_name).Scan(&user.Id, &user.UserName, &user.PasswordHash)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 // ユーザーの登録を行います。
 func (d *Database) WriteUser(user *model.User) error {
 	tx, err := d.db.Begin()
