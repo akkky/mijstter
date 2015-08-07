@@ -37,6 +37,9 @@ func _main() (int, error) {
 		c.String(200, "pong")
 	})
 
+	// スタティックリソース
+	r.Static("/files", "./files")
+
 	// POST /users
 	r.POST("/users", NewUser)
 	// GET /posts
