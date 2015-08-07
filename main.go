@@ -61,6 +61,8 @@ func _main() (int, error) {
 
 	// POST /users
 	r.POST("/users", NewUser)
+	// POST /login
+	r.POST("/login", Login)
 	// GET /posts
 	r.GET("/posts", GetPosts)
 	// POST /posts
