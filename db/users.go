@@ -31,6 +31,23 @@ func (d *Database) ReadUser(id model.ID) (*model.User, error) {
 	return user, nil
 }
 
+// 指定された user_name のユーザーを検索します。
+func (d *Database) IsUserNameExist(user_name string) (bool, error) {
+	stmt, err := d.db.Prepare("select count(id) from users where user_name=?")
+	if err != nil {
+		return false, err
+	}
+	defer stmt.Close()
+
+	var count int
+	err = stmt.QueryRow(user_name).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+
+	return count == 1, nil
+}
+
 // ユーザーの登録を行います。
 func (d *Database) WriteUser(user *model.User) error {
 	tx, err := d.db.Begin()
