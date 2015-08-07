@@ -23,6 +23,10 @@ func newUser(c *gin.Context) *Error {
 
 	fmt.Printf("Post : %v\n", user)
 
+	if !user.IsValidUserName() {
+		return NewError(http.StatusBadRequest, "user_name is not valid.", nil)
+	}
+
 	// ユーザーの存在チェック
 	exist, err := database.IsUserNameExist(user.UserName)
 	if err != nil {
