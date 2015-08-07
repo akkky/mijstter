@@ -3,6 +3,7 @@ package model
 import (
 	"crypto/sha256"
 	"reflect"
+	"regexp"
 )
 
 type User struct {
@@ -14,6 +15,10 @@ type User struct {
 }
 
 const hashRepeatCount = 10
+
+var (
+	regstr = regexp.MustCompile("^[a-zA-Z0-9_]+$")
+)
 
 // パスワードのハッシュを生成します。
 // ハッシュの生成はSHA256で10回繰り返します。
@@ -40,4 +45,9 @@ func (user *User) SetPasswordHash() {
 func (user *User) Authorize(password string) bool {
 	hash := makePasswordHash(password)
 	return reflect.DeepEqual(hash, user.PasswordHash)
+}
+
+// ユーザ名に不正な文字列が入力されていないか検証を行います
+func (user *User) IsValidUserName() bool {
+	return regstr.MatchString(user.UserName)
 }

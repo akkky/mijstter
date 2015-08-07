@@ -63,3 +63,29 @@ func TestAuthorize(t *testing.T) {
 		t.Errorf("got %v\nwant %v", actual, expected)
 	}
 }
+
+func TestIsValidUserName(t *testing.T) {
+	user := &User{UserName: "0123456789abcdefgA_"}
+
+	actual := user.IsValidUserName()
+	expected := true
+	if actual != expected {
+		t.Errorf("got %v\nwant %v", actual, expected)
+	}
+
+	user.UserName = "*!#$%&"
+
+	actual = user.IsValidUserName()
+	expected = false
+	if actual != expected {
+		t.Errorf("got %v\nwant %v", actual, expected)
+	}
+
+	user.UserName = ""
+
+	actual = user.IsValidUserName()
+	expected = false
+	if actual != expected {
+		t.Errorf("got %v\nwant %v", actual, expected)
+	}
+}
