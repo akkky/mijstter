@@ -24,6 +24,15 @@ func getPort() string {
 	return "localhost:8080"
 }
 
+func getBaseUrl() string {
+	baseUrl := os.Getenv("MIJSTTER_BASE_URL")
+	if baseUrl != "" {
+		return baseUrl
+	}
+
+	return "http://127.0.0.1:8080"
+}
+
 func AcceptCrossOrigin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Add("Access-Control-Allow-Origin", "*")
@@ -56,6 +65,8 @@ func _main() (int, error) {
 	r.GET("/posts", GetPosts)
 	// POST /posts
 	r.POST("/posts", NewPost)
+	// POST /images
+	r.POST("/images", NewImage)
 
 	r.Run(getPort())
 
