@@ -41,6 +41,7 @@ unique (user_name)
 	_, err = d.db.Exec(`create table posts (
 		id integer primary key autoincrement not null,
 		user_id integer not null,
+        user_name text not null,
 		message text,
 		url text
 		);`)
