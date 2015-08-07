@@ -6,8 +6,8 @@ import (
 
 type Error struct {
 	Status        int    `json:"-"`
-	Message       string `json:message`
-	ErrorDetails  string `json:error_details`
+	Message       string `json:"message"`
+	ErrorDetails  string `json:"error_details"`
 	internalError *error
 }
 
