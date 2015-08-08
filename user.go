@@ -51,3 +51,21 @@ func newUser(c *gin.Context) *Error {
 
 	return nil
 }
+
+func GetUsers(c *gin.Context) {
+	err := getUsers(c)
+	if err != nil {
+		c.JSON(err.Status, err)
+	}
+}
+
+func getUsers(c *gin.Context) *Error {
+	users, err := database.ReadUsers(30)
+	if err != nil {
+		return NewError(http.StatusInternalServerError, "Can not read userslist.", &err)
+	}
+
+	c.JSON(http.StatusOK, users)
+
+	return nil
+}

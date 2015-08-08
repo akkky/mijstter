@@ -59,6 +59,8 @@ func _main() (int, error) {
 	// スタティックリソース
 	r.Static("/files", "./files")
 
+	// GET /users
+	r.GET("/users", GetUsers)
 	// POST /users
 	r.POST("/users", NewUser)
 	// POST /login
