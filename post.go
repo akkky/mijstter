@@ -68,6 +68,10 @@ func newPost(c *gin.Context) *Error {
 
 	log.Printf("Post (got user) : %v\n", post)
 
+	// 他の書き込みを待機
+	writeSemaphore <- 0
+	defer func() { <-writeSemaphore }()
+
 	err = database.WritePost(&post)
 	if err != nil {
 		return NewError(http.StatusInternalServerError, "Post can not be written.", &err)

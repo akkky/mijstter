@@ -12,7 +12,8 @@ const (
 )
 
 var (
-	database *db.Database
+	database       *db.Database
+	writeSemaphore chan int
 )
 
 func getPort() string {
@@ -71,6 +72,10 @@ func _main() (int, error) {
 	r.POST("/posts", NewPost)
 	// POST /images
 	r.POST("/images", NewImage)
+
+	// 書き込み待機セマフォ生成
+	writeSemaphore = make(chan int, 1)
+	defer close(writeSemaphore)
 
 	r.Run(getPort())
 

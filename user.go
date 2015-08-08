@@ -45,6 +45,10 @@ func newUser(c *gin.Context) *Error {
 
 	user.SetPasswordHash()
 
+	// 他の書き込みを待機
+	writeSemaphore <- 0
+	defer func() { <-writeSemaphore }()
+
 	err = database.WriteUser(&user)
 	if err != nil {
 		return NewError(http.StatusInternalServerError, "User can not be written.", &err)
