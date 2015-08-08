@@ -3,6 +3,7 @@ package main
 import (
 	"code.google.com/p/go-uuid/uuid"
 	"github.com/gin-gonic/gin"
+	"log"
 	"mijstter/model"
 	"net/http"
 	"time"
@@ -53,6 +54,8 @@ func login(c *gin.Context) *Error {
 	if err != nil {
 		return NewError(http.StatusBadRequest, "Bad Request", &err)
 	}
+
+	log.Printf("Login : %v\n", login)
 
 	exist, err := database.IsUserNameExist(login.UserName)
 	if err != nil {

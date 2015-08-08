@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"mijstter/model"
 	"net/http"
 )
@@ -39,7 +39,7 @@ func newPost(c *gin.Context) *Error {
 		return NewError(http.StatusBadRequest, "Bad Request", &err)
 	}
 
-	fmt.Printf("Post : %v\n", post)
+	log.Printf("Post : %v\n", post)
 
 	var user *model.User
 	if post.SessionId != "" {
@@ -54,6 +54,8 @@ func newPost(c *gin.Context) *Error {
 
 	post.UserId = user.Id
 	post.UserName = user.UserName
+
+	log.Printf("Post (got user) : %v\n", post)
 
 	err = database.WritePost(&post)
 	if err != nil {

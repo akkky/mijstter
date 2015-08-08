@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"mijstter/model"
 	"net/http"
 )
@@ -21,7 +21,7 @@ func newUser(c *gin.Context) *Error {
 		return NewError(http.StatusBadRequest, "Bad Request", &err)
 	}
 
-	fmt.Printf("Post : %v\n", user)
+	log.Printf("User : %v\n", user)
 
 	if !user.IsValidUserName() {
 		return NewError(http.StatusBadRequest, "user_name is not valid.", nil)
