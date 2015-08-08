@@ -41,11 +41,19 @@ func newPost(c *gin.Context) *Error {
 
 	fmt.Printf("Post : %v\n", post)
 
+	var user *model.User
 	if post.SessionId != "" {
-		user := GetUserBySessionId(post.SessionId)
-		post.UserId = user.Id
-		post.UserName = user.UserName
+		user = GetUserBySessionId(post.SessionId)
 	}
+	if user == nil {
+		user = &model.User{UserName: post.UserName}
+	}
+	if !user.IsValidUserName() {
+		return NewError(http.StatusBadRequest, "user_name is not valid.", nil)
+	}
+
+	post.UserId = user.Id
+	post.UserName = user.UserName
 
 	err = database.WritePost(&post)
 	if err != nil {
