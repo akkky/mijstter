@@ -22,6 +22,9 @@ func CreateSessionId(user *model.User) string {
 	}
 	sessionMap[session.SessionId] = &session
 
+	// セキュリティ対策のため3秒待つ
+	time.Sleep(3 * time.Second)
+
 	return session.SessionId
 }
 
