@@ -5,7 +5,10 @@ import (
 	"log"
 	"mijstter/model"
 	"net/http"
+	"strconv"
 )
+
+const defaultUserLimit = 20
 
 func NewUser(c *gin.Context) {
 	err := newUser(c)
@@ -60,7 +63,15 @@ func GetUsers(c *gin.Context) {
 }
 
 func getUsers(c *gin.Context) *Error {
-	users, err := database.ReadUsers(30)
+	limitStr := c.Query("limit")
+
+	var limit int
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil || limit < 1 {
+		limit = defaultUserLimit
+	}
+
+	users, err := database.ReadUsers(limit)
 	if err != nil {
 		return NewError(http.StatusInternalServerError, "Can not read userslist.", &err)
 	}

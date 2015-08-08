@@ -21,6 +21,14 @@ go build
 
 ### GET /users
 
+#### Parameter
+
+```
+/users?limit=10
+```
+
+Default is 20.
+
 #### Results
 ```json
 [
@@ -71,6 +79,14 @@ ID
 ```
 
 ### GET /posts
+
+#### Parameter
+
+```
+/posts?limit=10
+```
+
+Default is 20.
 
 #### Results
 

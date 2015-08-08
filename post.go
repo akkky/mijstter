@@ -5,7 +5,10 @@ import (
 	"log"
 	"mijstter/model"
 	"net/http"
+	"strconv"
 )
+
+const defaultPostLimit = 20
 
 func GetPosts(c *gin.Context) {
 	err := getPosts(c)
@@ -15,7 +18,15 @@ func GetPosts(c *gin.Context) {
 }
 
 func getPosts(c *gin.Context) *Error {
-	posts, err := database.ReadPosts(20)
+	limitStr := c.Query("limit")
+
+	var limit int
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil || limit < 1 {
+		limit = defaultPostLimit
+	}
+
+	posts, err := database.ReadPosts(limit)
 	if err != nil {
 		return NewError(http.StatusInternalServerError, "Can not read posts.", &err)
 	}
