@@ -41,6 +41,12 @@ func newPost(c *gin.Context) *Error {
 
 	fmt.Printf("Post : %v\n", post)
 
+	if post.SessionId != "" {
+		user := GetUserBySessionId(post.SessionId)
+		post.UserId = user.Id
+		post.UserName = user.UserName
+	}
+
 	err = database.WritePost(&post)
 	if err != nil {
 		return NewError(http.StatusInternalServerError, "Post can not be written.", &err)
