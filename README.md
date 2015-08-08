@@ -19,6 +19,18 @@ go build
 
 ## API References
 
+### GET /users
+
+#### Results
+```json
+[
+  {
+    "id" : 1,
+    "user_name" : "mijs_taro"
+  }, ...
+]
+```
+
 ### POST /users
 
 #### Parameters
